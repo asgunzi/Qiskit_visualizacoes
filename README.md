@@ -7,13 +7,10 @@ Vejamos três delas: o simulador, o vetor de estados, e o unitário.
 
 Para tal, vou utilizar o mesmo circuito mais básico possível do tutorial anterior: apenas uma porta Hadamard.
 
-`from qiskit import *
-
-circuit = QuantumCircuit(1,1)
-
-circuit.h(0)
-
-circuit.measure(0,0)`
+`from qiskit import *`
+`circuit = QuantumCircuit(1,1)`
+`circuit.h(0)`
+`circuit.measure(0,0)`
 
 
 ![](https://informacaoquantica.files.wordpress.com/2020/04/hadamard.png)
@@ -22,9 +19,7 @@ circuit.measure(0,0)`
 1) O primeiro modo de visualização é o simulador de circuito quântico. Defino o backend como ‘qasm_simulator’ (quantum assembly simulator). Mando rodar e capturar o resultado.
 
 `simulator1 = Aer.get_backend('qasm_simulator')
-
 result1  = execute(circuit, backend=simulator1, shots=512).result()
-
 print(result1.get_counts(circuit))`
 
 Resultado: o número de vezes que o circuito mediu ‘0’ e ‘1’. Deve somar 512, número de simulações definidas com o parâmetro ‘shots’. A probabilidade de cada um deve ser em torno de 50%, pela porta Hadamard ser um autêntico gerador de números aleatórios.
@@ -40,13 +35,10 @@ Resultado: o número de vezes que o circuito mediu ‘0’ e ‘1’. Deve somar
 Um detalhe importante. Comentar a linha do circuit.measure(). Porque, se o circuito estiver medindo, o statevector colapsa para |0> ou |1>, e queremos o valor antes disso.
 
 `#Se Utilizar o state vector e o simulador unitário, comentar a linha da medida
+#circuit.measure(0,0)`
 
-#circuit.measure(0,0)
-
-simulator2 = Aer.get_backend('statevector_simulator')
-
+`simulator2 = Aer.get_backend('statevector_simulator')
 result2  = execute(circuit, backend=simulator2).result()
-
 print(result2.get_statevector())`
 
 Resultado:
@@ -70,17 +62,13 @@ Neste circuito simples, dá para deduzir facilmente, porém em casos mais compli
 Novamente, o circuit.measure() deve estar desativado – senão, colapsa a função de onda.
 
 `#circuit.measure(0,0)
-
 simulator3 = Aer.get_backend('unitary_simulator')
-
 result3  = execute(circuit, backend=simulator3).result()
-
 print(result3.get_unitary())`
 
 Resultado:
 
 `[[ 0.70710678+0.00000000e+00j  0.70710678-8.65956056e-17j]
-
  [ 0.70710678+0.00000000e+00j -0.70710678+8.65956056e-17j]]`
 
 Ou seja, [[1 1][1 -1]]/sqrt(2), exatamente a porta Hadamard.
